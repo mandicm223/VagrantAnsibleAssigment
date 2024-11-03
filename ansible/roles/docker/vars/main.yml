@@ -1,0 +1,4 @@
+# roles/docker/vars/main.yml
+
+# Define Docker version
+docker_version: "latest"

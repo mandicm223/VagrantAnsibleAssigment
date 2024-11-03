@@ -1,0 +1,23 @@
+# roles/quote_displayer/tasks/main.yml
+
+- name: Copy display_quote.py script to VM
+  copy:
+    src: files/display_quote.py
+    dest: /home/vagrant/display_quote.py
+
+- name: Copy Dockerfile to VM
+  copy:
+    src: files/Dockerfile
+    dest: /home/vagrant/Dockerfile
+
+- name: Build the Docker image for the quote displayer
+  command: docker build -t kanye-quote-displayer /home/vagrant
+  tags: quote_displayer
+
+- name: Create cron job for running quote displayer container
+  cron:
+    name: "Run Kanye Quote Displayer"
+    minute: "15"
+    hour: "*"
+    job: "docker run --rm -v /var/log/kanye_quotes:/var/log/kanye_quotes kanye-quote-displayer >> /var/log/kanye_quote_output.log 2>&1"
+  tags: quote_displayer

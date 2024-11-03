@@ -1,0 +1,51 @@
+# roles/docker/tasks/main.yml
+
+- name: Update apt package index
+  apt:
+    update_cache: yes
+  tags: docker_install
+
+- name: Install prerequisites
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+  tags: docker_install
+
+- name: Add Docker’s GPG key
+  apt_key:
+    url: "{{ docker_gpg_key }}"
+    state: present
+  tags: docker_install
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: "deb [arch=amd64] {{ docker_apt_url }} jammy stable"
+    state: present
+  tags: docker_install
+
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: "{{ docker_version }}"
+    update_cache: yes
+  notify:
+    - restart docker
+  tags: docker_install
+
+- name: Enable and start Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+  tags: docker_install
+
+- name: Add {{ docker_user }} user to the docker group
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes
+  tags: docker_config

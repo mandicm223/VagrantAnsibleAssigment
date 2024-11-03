@@ -1,0 +1,5 @@
+# roles/docker/defaults/main.yml
+
+docker_apt_url: https://download.docker.com/linux/ubuntu
+docker_gpg_key: https://download.docker.com/linux/ubuntu/gpg
+docker_user: vagrant

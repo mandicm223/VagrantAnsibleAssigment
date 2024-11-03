@@ -1,0 +1,9 @@
+# ansible/playbook.yml
+
+- name: Setup VM with Docker
+  hosts: all
+  become: true
+  roles:
+    - docker
+    - kanye_cron
+    - quote_displayer

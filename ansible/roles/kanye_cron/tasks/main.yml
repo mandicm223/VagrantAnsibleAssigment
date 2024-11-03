@@ -1,0 +1,34 @@
+# roles/kanye_cron/tasks/main.yml
+
+- name: Install jq for JSON processing
+  apt:
+    name: jq
+    state: present
+  tags: kanye_cron
+
+- name: Install systemd-cron
+  apt:
+    name: systemd-cron
+    state: present
+  tags: kanye_cron
+
+- name: Copy fetch_kanye_quote.sh script to /usr/local/bin
+  copy:
+    src: files/fetch_kanye_quote.sh
+    dest: /usr/local/bin/fetch_kanye_quote.sh
+    mode: "0755"
+  tags: kanye_cron
+
+- name: Ensure output directory exists
+  file:
+    path: /var/log/kanye_quotes
+    state: directory
+    mode: "0755"
+  tags: kanye_cron
+
+- name: Create hourly cron job for fetching Kanye quotes
+  cron:
+    name: "Fetch Kanye Quote"
+    job: "/usr/local/bin/fetch_kanye_quote.sh"
+    minute: "0"
+  tags: kanye_cron
