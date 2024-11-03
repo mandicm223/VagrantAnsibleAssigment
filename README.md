@@ -15,18 +15,3 @@ This project creates a Vagrant-based development environment that provisions an 
 - **Virtualization Provider**: e.g., VirtualBox, VMware.
 - **Ansible**: Used for provisioning inside the VM.
 
-## Project Structure
-
-```plaintext
-.
-├── Vagrantfile              # Vagrant configuration file
-├── ansible/
-│   ├── playbook.yml         # Main Ansible playbook
-│   ├── roles/
-│   │   ├── common/          # Common role to install dependencies
-│   │   ├── docker/          # Role to install Docker and manage containers
-│   │   └── cron_jobs/       # Role to configure cron jobs
-├── fetch_kanye_quote.sh     # Bash script to fetch quotes from the API
-├── display_quote.py         # Python script to display quotes
-├── Dockerfile               # Dockerfile for the Python script
-└── README.md                # Project documentation
